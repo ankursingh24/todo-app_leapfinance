@@ -46,7 +46,7 @@ function updateList(id){
 
   return (
     <div  className='container'>
-      <h2 className='text-center'>TO-DO List</h2>
+      <h2 className='text-center' style = {{color:'',marginTop:'18px'}}><u>TO-DO App</u></h2>
       <button className='btn btn-primary mb-2' onClick={addNewTask}>Add New Task</button>
       <table className="table table-stripped table-bordered">
         <thead>
