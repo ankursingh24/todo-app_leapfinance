@@ -1,10 +1,7 @@
 package net.javaspring.todo.entitiy;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -20,13 +17,19 @@ public class List {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="Task",nullable=false)
+    @Column(name="Task" ,unique=true)
+    @NonNull
     private String task;
 
     @Column(name="Description")
     private String description;
 
     @Column(name="Status")
-    private Boolean status;
+    @PrePersist
+    void preInsert() {
+        if (this.status == null)
+            this.status = "Not Completed";
+    }
+    private String status;
 
 }

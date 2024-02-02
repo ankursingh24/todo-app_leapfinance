@@ -3,10 +3,13 @@ package net.javaspring.todo.service.impl;
 import lombok.AllArgsConstructor;
 import net.javaspring.todo.dto.ListDto;
 import net.javaspring.todo.entitiy.List;
+import net.javaspring.todo.exception.ResourceNotFoundException;
 import net.javaspring.todo.mapper.ListMapper;
 import net.javaspring.todo.repository.ListRepository;
 import net.javaspring.todo.service.ListService;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,5 +29,43 @@ public class ListServiceImpl implements ListService {
 
 
         return ListMapper.mapToListDto(savedList);
+    }
+
+    @Override
+    public ListDto getListById(Long listId) {
+        List list=listRepository.findById((listId))
+        .orElseThrow(()->new ResourceNotFoundException("No item present in the list :"  + listId));
+        return ListMapper.mapToListDto(list);
+    }
+
+    @Override
+    public java.util.List<ListDto> getAllLists() {
+        java.util.List<List> lists=listRepository.findAll();
+        return lists.stream().map((list)->ListMapper.mapToListDto(list))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public ListDto updateList(Long listId, ListDto updatedList) {
+        List list=listRepository.findById(listId)
+                .orElseThrow(
+                        ()-> new ResourceNotFoundException("item does not exist")
+                                        );
+        list.setTask(updatedList.getTask());
+        list.setDescription(updatedList.getDescription());
+        list.setStatus(updatedList.getStatus());
+
+         List updateListObj=listRepository.save(list);
+
+        return ListMapper.mapToListDto(updateListObj);
+    }
+
+    @Override
+    public void deleteList(Long listId) {
+        List list=listRepository.findById((listId))
+                .orElseThrow(()->new ResourceNotFoundException("No item present in the list :"  + listId));
+         listRepository.deleteById(listId);
+
     }
 }

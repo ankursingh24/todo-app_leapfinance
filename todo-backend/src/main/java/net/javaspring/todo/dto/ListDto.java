@@ -15,6 +15,6 @@ public class ListDto {
     private Long id;
     private String task;
     private String description;
-    private Boolean status;
+    private String status;
 
 }
