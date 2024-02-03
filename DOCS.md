@@ -9,7 +9,8 @@ Create a To-Do List application using Java with Spring Boot for the backend and 
 
 ***`Technology Stack`***:
 
-•	Spring Boot                                                                                                                                                         
+
+•	Spring Boot                                                                                                                                   
 •	Spring Data JPA<br />
 •	MySQL Database<br />
 •	IntelliJ IDEA<br />
